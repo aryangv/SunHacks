@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Study Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Gemini Study Assistant</h1>
+            <p>Upload a text file to generate AI-powered study notes and interactive flashcards</p>
+        </header>
+
+        <main>
+            <div class="upload-section">
+                <div class="upload-box" id="uploadBox">
+                    <div class="upload-content">
+                        <div class="upload-icon">📄</div>
+                        <h3>Upload Your Text File</h3>
+                        <p>Supported formats: .txt, .md, .py, .js, .html, .css</p>
+                        <input type="file" id="fileInput" accept=".txt,.md,.py,.js,.html,.css" style="display: none;">
+                        <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                            Choose File
+                        </button>
+                    </div>
+                </div>
+
+                <div class="file-info" id="fileInfo" style="display: none;">
+                    <h4>Selected File:</h4>
+                    <p id="fileName"></p>
+                    <button class="process-btn" onclick="processFile()">Generate Study Materials</button>
+                </div>
+
+                <div class="loading" id="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>AI is analyzing your file and generating study materials...</p>
+                </div>
+
+                <div class="success" id="success" style="display: none;">
+                    <h3>✅ Study Materials Generated Successfully!</h3>
+                    <div class="stats">
+                        <div class="stat">
+                            <span class="stat-number" id="notesCount">0</span>
+                            <span class="stat-label">Notes Lines</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="flashcardsCount">0</span>
+                            <span class="stat-label">Flashcards</span>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="/notes" class="btn btn-primary">View Notes</a>
+                        <a href="/flashcards" class="btn btn-secondary">Study Flashcards</a>
+                    </div>
+                </div>
+
+                <div class="error" id="error" style="display: none;">
+                    <h3>❌ Error Processing File</h3>
+                    <p id="errorMessage"></p>
+                    <button class="btn btn-primary" onclick="resetUpload()">Try Again</button>
+                </div>
+            </div>
+
+            <div class="features">
+                <h2>Features</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📝</div>
+                        <h3>Smart Notes</h3>
+                        <p>AI-generated comprehensive study notes with clear structure and key concepts highlighted</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Interactive Flashcards</h3>
+                        <p>Test your knowledge with AI-created flashcards covering the most important topics</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Instant Generation</h3>
+                        <p>Get your study materials in seconds using Google's advanced Gemini AI</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

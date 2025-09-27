@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Flashcards - Gemini Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='flashcards.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="flashcards-header">
+            <div class="header-content">
+                <h1>🎯 Interactive Flashcards</h1>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+                    <button class="btn btn-primary" onclick="shuffleCards()">🔀 Shuffle</button>
+                    <a href="/" class="btn btn-outline">← Back to Upload</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="flashcards-main">
+            {% if flashcards %}
+            <div class="study-session">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                    <span class="progress-text" id="progressText">0 / {{ flashcards|length }}</span>
+                </div>
+
+                <div class="card-container">
+                    <div class="flashcard" id="flashcard">
+                        <div class="card-content">
+                            <div class="card-side front" id="cardFront">
+                                <div class="card-header">
+                                    <span class="card-number" id="cardNumber">1</span>
+                                    <span class="card-type">Question</span>
+                                </div>
+                                <div class="card-text" id="cardQuestion">
+                                    <!-- Question will be loaded here -->
+                                </div>
+                            </div>
+                            <div class="card-side back" id="cardBack" style="display: none;">
+                                <div class="card-header">
+                                    <span class="card-number" id="cardNumberBack">1</span>
+                                    <span class="card-type">Answer</span>
+                                </div>
+                                <div class="card-text" id="cardAnswer">
+                                    <!-- Answer will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-controls">
+                    <button class="control-btn" onclick="previousCard()" id="prevBtn">← Previous</button>
+                    <button class="control-btn primary" onclick="flipCard()" id="flipBtn">Show Answer</button>
+                    <button class="control-btn" onclick="nextCard()" id="nextBtn">Next →</button>
+                </div>
+
+                <div class="study-options">
+                    <div class="option-group">
+                        <label>
+                            <input type="checkbox" id="autoFlip" onchange="toggleAutoFlip()">
+                            Auto-flip after 3 seconds
+                        </label>
+                    </div>
+                    <div class="option-group">
+                        <label>
+                            <input type="checkbox" id="markKnown" onchange="toggleMarkKnown()">
+                            Mark as known (hide from session)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="study-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="totalCards">{{ flashcards|length }}</span>
+                        <span class="stat-label">Total Cards</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="knownCards">0</span>
+                        <span class="stat-label">Known</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="remainingCards">{{ flashcards|length }}</span>
+                        <span class="stat-label">Remaining</span>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="no-flashcards">
+                <div class="no-flashcards-icon">🎯</div>
+                <h3>No Flashcards Available</h3>
+                <p>Upload a text file to generate interactive flashcards</p>
+                <a href="/" class="btn btn-primary">Upload File</a>
+            </div>
+            {% endif %}
+        </main>
+    </div>
+
+    <script>
+        // Pass flashcards data to JavaScript
+        const flashcardsData = {{ flashcards | tojson | safe }};
+    </script>
+    <script src="{{ url_for('static', filename='flashcards.js') }}"></script>
+</body>
+</html>
